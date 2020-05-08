@@ -1,18 +1,11 @@
-import {
-  makeStyles,
-  Grid,
-  AppBar,
-  Toolbar,
-  Box,
-  Typography,
-  Button,
-  Link,
-} from '@material-ui/core';
+import {makeStyles, Grid, Box, Typography, Button} from '@material-ui/core';
 import * as React from 'react';
 
 import siteBackgroundImage from '../../images/test-1.jpg';
+import siteBackgroundImageDark from '../../images/test-7.jpg';
 
 const useStyles = makeStyles(theme => {
+  console.log(theme);
   const styles = {
     root: {
       flexGrow: 1,
@@ -25,17 +18,19 @@ const useStyles = makeStyles(theme => {
     appBarRoot: {
       backgroundColor: theme.palette.background.default,
     },
-    mainContent: {
-      paddingTop: theme.spacing(8),
-    },
     siteImage: {
-      backgroundImage: `url(${siteBackgroundImage})`,
-      backgroundSize: '100%',
+      backgroundImage: `url(${
+        theme.palette.type === 'dark'
+          ? siteBackgroundImageDark
+          : siteBackgroundImage
+      })`,
+      backgroundSize: 'cover',
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'right top',
     },
     welcomeText: {
       fontFamily: 'Rubik',
+      paddingTop: theme.spacing(10),
     },
     connectToText: {
       fontFamily: 'Rubik',
@@ -45,6 +40,7 @@ const useStyles = makeStyles(theme => {
       fontFamily: 'Rubik',
       height: '240px',
     },
+    leftSection: {},
   };
   return styles;
 });
@@ -79,20 +75,16 @@ export const Home = props => {
   const classes = useStyles(props);
   return (
     <Box display="flex" style={{height: '100%'}}>
-      <AppBar classes={{root: classes.root}}>
-        <Toolbar classes={{root: classes.appBarRoot}} />
-      </AppBar>
       <Grid
         spacing={6}
         container
         direction="row"
         justify="flex-start"
-        // alignItems="stretch"
         flex="1"
         className={classes.mainContent}
       >
         <Grid item lg={7} md={7} sm={7}>
-          <Box p={3}>
+          <Box p={3} className={classes.leftSection}>
             <Typography classes={{root: classes.welcomeText}} variant="h2">
               Let&apos;s connect you with your <ConnectToText />
             </Typography>
@@ -101,7 +93,6 @@ export const Home = props => {
             <Button variant="contained" color="primary" disableElevation>
               Start for free
             </Button>
-            <Link>Watch the video</Link>
           </Box>
           <Box p={3} flexGrow={0} flexBasis={2}>
             <Typography variant="h6">
