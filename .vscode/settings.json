@@ -4,7 +4,7 @@
   "eslint.alwaysShowStatus": true,
   "eslint.enable": true,
   "prettier.eslintIntegration": true,
-  "prettier.disableLanguages": ["javascript", "javascriptreact"],
+  // "prettier.disableLanguages": ["javascript", "javascriptreact"],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true
