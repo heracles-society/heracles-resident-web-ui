@@ -4,7 +4,7 @@ import React from 'react';
 import './App.css';
 
 import theme from './theme';
-import Home from './views/Home';
+import SelectSociety from './views/SelectSociety';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -17,7 +17,7 @@ function App() {
   return (
     <ThemeProvider theme={appTheme}>
       <CssBaseline />
-      <Home />
+      <SelectSociety />
     </ThemeProvider>
   );
 }

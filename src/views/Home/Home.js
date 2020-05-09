@@ -1,8 +1,8 @@
 import {makeStyles, Grid, Box, Typography, Button} from '@material-ui/core';
 import * as React from 'react';
 
-import siteBackgroundImage from '../../images/test-1.jpg';
-import siteBackgroundImageDark from '../../images/test-7.jpg';
+import siteBackgroundImage from '../../images/image_1.jpg';
+import siteBackgroundImageDark from '../../images/image_7.jpg';
 
 const useStyles = makeStyles(theme => {
   console.log(theme);

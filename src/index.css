@@ -16,6 +16,5 @@ code {
 .root {
   height: 100vh;
   max-height: 100vh;
-  padding: 24px;
   position: relative;
 }
