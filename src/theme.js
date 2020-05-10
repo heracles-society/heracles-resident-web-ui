@@ -12,7 +12,7 @@ const theme = themeType => {
       type: themeType,
       background: {
         default: isDark ? '#333745' : '#F9F6F0',
-        paper: isDark ? '#0A0B1D' : '#FFFFFF',
+        paper: isDark ? '#292C3B' : '#FFFFFF',
       },
       primary: {
         main: '#E0607E',

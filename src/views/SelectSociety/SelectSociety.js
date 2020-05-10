@@ -5,10 +5,13 @@ import {
   Button,
   Container,
   Typography,
+  makeStyles,
+  Divider,
 } from '@material-ui/core';
 import React from 'react';
 
 import PricingTrends from './PricingTrends';
+import {SearchSociety} from './SearchSociety';
 
 import Map from '../../components/Map';
 import Image1 from '../../images/image_3.jpg';
@@ -22,9 +25,33 @@ const imageStyles = {
   borderRadius: '4px',
 };
 
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: '2px 4px',
+    display: 'flex',
+    alignItems: 'center',
+    width: 400,
+  },
+  addressText: {
+    fontFamily: theme.typography.fontFamilyTitle,
+  },
+  primaryAddressText: {
+    fontFamily: theme.typography.fontFamilyTitle,
+    fontWeight: theme.typography.fontWeightBold,
+  },
+  secondaryAddressText: {
+    fontFamily: theme.typography.fontFamilyTitle,
+    color: theme.palette.text.secondary,
+  },
+}));
+
 export const SelectSociety = props => {
+  const classes = useStyles(props);
   return (
-    <Container maxWidth="lg" style={{minHeight: '100%', position: 'relative'}}>
+    <Container
+      maxWidth="lg"
+      style={{minHeight: '100%', position: 'relative', padding: 0}}
+    >
       <Box display="flex" flexDirection="row">
         <Box
           display="flex"
@@ -120,7 +147,6 @@ export const SelectSociety = props => {
                           variant="body2"
                           style={{fontStyle: 'italic'}}
                         >
-                          {/* <FormatQuoteIcon style={{fontSize: 16}} /> */}
                           -- One of our best people
                         </Typography>
                       </Box>
@@ -133,7 +159,7 @@ export const SelectSociety = props => {
                     alignItems="stretch"
                   >
                     <Button variant="contained" color="primary">
-                      Contact Manager
+                      Request onboarding
                     </Button>
                   </Box>
                 </Grid>
@@ -142,21 +168,185 @@ export const SelectSociety = props => {
           </Box>
           <Box display="flex" flex="1" style={{paddingTop: 24}}>
             <Box flex="8" style={{paddingRight: 24}}>
-              <Box
-                display="flex"
-                flexDirection="row"
-                style={{height: '100%'}}
-              />
+              <Box display="flex" flexDirection="row" style={{height: '100%'}}>
+                <Box flex="1" style={{padding: 16}}>
+                  <Box
+                    className={classes.addressText}
+                    style={{paddingBottom: 24}}
+                  >
+                    <Typography
+                      className={classes.primaryAddressText}
+                      variant="h4"
+                    >
+                      Society 1,
+                      <span className={classes.secondaryAddressText}> KA</span>
+                    </Typography>
+                    <Typography
+                      variant="caption"
+                      display="block"
+                      color="textSecondary"
+                      gutterBottom
+                    >
+                      HSR Layout, Sector 3. Bangalore
+                    </Typography>
+                  </Box>
+                  <Divider />
+                  <Box
+                    display="flex"
+                    style={{paddingTop: 16}}
+                    flexDirection="row"
+                  >
+                    <Box flex="0 0 33%">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        component="h4"
+                      >
+                        Built
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        2017
+                      </Typography>
+                    </Box>
+                    <Box flex="0 0 33%">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        component="h4"
+                      >
+                        Area
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        8000 sqft.
+                      </Typography>
+                    </Box>
+                    <Box flex="0 0 33%">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        component="h4"
+                      >
+                        Capacity
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        1200
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    style={{paddingTop: 16}}
+                    flexDirection="row"
+                  >
+                    <Box flex="0 0 33%">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        component="h4"
+                      >
+                        Owned by
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        Organization 1
+                      </Typography>
+                    </Box>
+                    <Box flex="0 0 33%">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        component="h4"
+                      >
+                        Happiness Index
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        4/5
+                      </Typography>
+                    </Box>
+                    <Box flex="0 0 33%">
+                      <Typography
+                        color="textSecondary"
+                        variant="body2"
+                        component="h4"
+                      >
+                        Safety Index
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        8/10
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box
+                    display="flex"
+                    style={{paddingTop: 32}}
+                    flexDirection="row"
+                  >
+                    <Box flex="0 0 33%">
+                      <Typography
+                        variant="h6"
+                        component="h3"
+                        style={{fontWeight: 700, fontFamily: 'Rubik'}}
+                      >
+                        Highlights
+                      </Typography>
+                    </Box>
+                    <Box flex="0 0 66%">
+                      <Typography color="textSecondary" variant="subtitle2">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+                        sed do eiusmod tempor incididunt ut labore et dolore
+                        magna aliqua. Ut enim ad minim veniam, quis nostrud
+                        exercitation ullamco laboris nisi ut aliquip ex ea
+                        commodo consequat. Duis aute irure dolor in
+                        reprehenderit in voluptate velit esse cillum dolore eu
+                        fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+                        non proident, sunt in culpa qui officia deserunt mollit
+                        anim id est laborum.
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
             </Box>
             <Box flex="4">
-              <Box style={{paddingLeft: 24}}>
-                <Typography
-                  variant="h6"
-                  style={{fontFamily: 'Rubik', fontWeight: 700}}
+              <Box style={{padding: 16}}>
+                <Box
+                  style={{
+                    height: 64,
+                    paddingBottom: 8,
+                    boxSizing: 'content-box',
+                  }}
                 >
-                  Analytics
-                </Typography>
-                <Box style={{paddingTop: 24}}>
+                  <Typography
+                    variant="h6"
+                    style={{fontFamily: 'Rubik', fontWeight: 700}}
+                  >
+                    Analytics
+                  </Typography>
+                </Box>
+                <Box>
                   <Typography style={{paddingBottom: 16}} variant="body2">
                     Price History
                   </Typography>
@@ -186,6 +376,20 @@ export const SelectSociety = props => {
               flex: 1,
             }}
           >
+            <Box
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                zIndex: 1,
+                padding: 24,
+              }}
+            >
+              <Paper component="form">
+                <SearchSociety styles={{width: '100%'}} />
+              </Paper>
+            </Box>
             <Map />
           </Paper>
         </Box>
