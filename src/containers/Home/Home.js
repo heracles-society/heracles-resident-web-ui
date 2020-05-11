@@ -9,7 +9,9 @@ const useStyles = makeStyles(theme => {
   const styles = {
     root: {
       flexGrow: 1,
+      height: '100%',
       boxShadow: 'none',
+      padding: '24px',
     },
     paper: {
       width: '100px',
@@ -74,7 +76,7 @@ const ConnectToText = props => {
 export const Home = props => {
   const classes = useStyles(props);
   return (
-    <Box display="flex" style={{height: '100%'}}>
+    <Box display="flex" className={classes.root}>
       <Grid
         spacing={6}
         container

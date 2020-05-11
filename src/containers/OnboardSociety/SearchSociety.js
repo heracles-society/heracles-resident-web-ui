@@ -16,6 +16,9 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     marginRight: theme.spacing(2),
   },
+  inputRoot: {
+    height: 64,
+  },
 }));
 
 export const SearchSociety = props => {
@@ -54,6 +57,7 @@ export const SearchSociety = props => {
     <Autocomplete
       id="search-society"
       style={props.styles}
+      classes={{inputRoot: classes.inputRoot}}
       open={open}
       onOpen={() => {
         setOpen(true);

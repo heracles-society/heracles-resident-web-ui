@@ -1,10 +1,10 @@
 import {useMediaQuery, ThemeProvider, CssBaseline} from '@material-ui/core';
 import React from 'react';
-
 import './App.css';
+import {BrowserRouter as Router} from 'react-router-dom';
 
+import Routes from './routes';
 import theme from './theme';
-import SelectSociety from './views/SelectSociety';
 
 function App() {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -16,8 +16,10 @@ function App() {
 
   return (
     <ThemeProvider theme={appTheme}>
-      <CssBaseline />
-      <SelectSociety />
+      <Router>
+        <CssBaseline />
+        <Routes />
+      </Router>
     </ThemeProvider>
   );
 }
