@@ -1,5 +1,6 @@
 import {makeStyles, Grid, Box, Typography, Button} from '@material-ui/core';
 import * as React from 'react';
+import {useHistory} from 'react-router-dom';
 
 import siteBackgroundImage from '../../images/image_1.jpg';
 import siteBackgroundImageDark from '../../images/image_7.jpg';
@@ -67,7 +68,7 @@ const ConnectToText = props => {
       const selectedOption = options[optionIndex];
       textIndex++;
       setConnectToText(selectedOption.slice(0, textIndex));
-    }, 100);
+    }, 150);
     return () => clearInterval(interval);
   }, []);
   return <span className={classes.connectToText}>{connectToText}</span>;
@@ -75,6 +76,7 @@ const ConnectToText = props => {
 
 export const Home = props => {
   const classes = useStyles(props);
+  const history = useHistory();
   return (
     <Box display="flex" className={classes.root}>
       <Grid
@@ -88,11 +90,25 @@ export const Home = props => {
         <Grid item lg={7} md={7} sm={7}>
           <Box p={3} className={classes.leftSection}>
             <Typography classes={{root: classes.welcomeText}} variant="h2">
-              Let&apos;s connect you with your <ConnectToText />
+              Let&apos;s connect you with
+            </Typography>
+            <Typography
+              classes={{root: classes.welcomeText}}
+              style={{paddingTop: 0}}
+              variant="h2"
+            >
+              your <ConnectToText />
             </Typography>
           </Box>
           <Box p={3}>
-            <Button variant="contained" color="primary" disableElevation>
+            <Button
+              variant="contained"
+              color="primary"
+              disableElevation
+              onClick={() => {
+                history.push('/login');
+              }}
+            >
               Start for free
             </Button>
           </Box>
