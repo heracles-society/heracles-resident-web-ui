@@ -1,84 +1,13 @@
-import {
-  Paper,
-  Box,
-  makeStyles,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-} from '@material-ui/core';
-import MailIcon from '@material-ui/icons/Mail';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
+import {Paper, Box, makeStyles} from '@material-ui/core';
 import * as React from 'react';
-import {useHistory, useRouteMatch} from 'react-router-dom';
 
 import ManagementContent from './ManagementContent';
+import ManagementNavigation from './ManagementNavigation';
 
 import {Page} from '../../components/Layout';
 import siteBackgroundImageDark from '../../images/image_2.jpg';
 import siteBackgroundImage from '../../images/image_4.jpg';
 import {SearchSociety} from '../OnboardSociety';
-
-const ManagementNavigation = props => {
-  const history = useHistory();
-  const {url} = useRouteMatch();
-  const goToLink = subPath => () => history.push(`${url}/${subPath}`);
-  return (
-    <>
-      <List>
-        <ListItem button onClick={goToLink('complaints')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Complaints" />
-        </ListItem>
-        <ListItem button onClick={goToLink('reservations')}>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="Reservations" />
-        </ListItem>
-        <ListItem button onClick={goToLink('bills-and-payments')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Bills & Payments" />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button onClick={goToLink('notifications')}>
-          <ListItemIcon>
-            <MailIcon />
-          </ListItemIcon>
-          <ListItemText primary="Notifications" />
-        </ListItem>
-        <ListItem button onClick={goToLink('onboardings')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Onboardings" />
-        </ListItem>
-        <ListItem button onClick={goToLink('profile')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Profile" />
-        </ListItem>
-      </List>
-      <Divider />
-      <List>
-        <ListItem button onClick={goToLink('settings')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Settings" />
-        </ListItem>
-      </List>
-    </>
-  );
-};
 
 const drawerWidth = 240;
 

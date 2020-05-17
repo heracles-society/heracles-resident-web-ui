@@ -31,6 +31,11 @@ const ManagementComponent = props => {
       />
       <Route
         exact
+        path={`${path}/societies`}
+        component={ManagementRouteComponent}
+      />
+      <Route
+        exact
         path={`${path}/profile`}
         component={ManagementRouteComponent}
       />
