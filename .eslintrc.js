@@ -16,6 +16,7 @@ module.exports = {
   ],
   plugins: ['react', 'prettier', 'react-hooks', 'jsx-a11y', 'import'],
   globals: {
+    __DEV__: 'readonly',
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },

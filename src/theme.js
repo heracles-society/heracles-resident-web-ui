@@ -11,8 +11,10 @@ const theme = themeType => {
     palette: {
       type: themeType,
       background: {
-        default: isDark ? '#333745' : '#F9F6F0',
-        paper: isDark ? '#292C3B' : '#FFFFFF',
+        // default: isDark ? '#333745' : '#F9F6F0',
+        // paper: isDark ? '#292C3B' : '#FFFFFF',
+        default: isDark ? '#0D0E0B' : '#F9F6F0',
+        paper: isDark ? '#151712' : '#FFFFFF',
       },
       primary: {
         main: '#E0607E',

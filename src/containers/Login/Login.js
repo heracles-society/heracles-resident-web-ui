@@ -85,7 +85,7 @@ export const LoginView = props => {
   }, [googleAccessToken]);
 
   if (token) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/manage" />;
   }
 
   return (

@@ -3,6 +3,7 @@ import {Switch, Route} from 'react-router-dom';
 
 import Home from '../containers/Home';
 import LoginView from '../containers/Login';
+import Management from '../containers/Management';
 import OnboardSociety from '../containers/OnboardSociety';
 
 const Routes = props => {
@@ -11,7 +12,8 @@ const Routes = props => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={LoginView} />
-        <Route exact path="/dashboard" component={OnboardSociety} />
+        <Route path="/manage" component={Management} />
+        <Route path="/onboard-society" component={OnboardSociety} />
       </Switch>
     </Suspense>
   );

@@ -407,7 +407,7 @@ export const OnboardSociety = props => {
                   <SearchSociety styles={{width: '100%'}} />
                 </Paper>
               </Box>
-              <Map />
+              <Map longitude="77.642412" latitude="12.911103" />
             </Paper>
           </Box>
         </Box>
