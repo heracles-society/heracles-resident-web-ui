@@ -3,8 +3,5 @@ build:
     HERACLES_API: https://https://api-heracles.herokuapp.com/
   docker:
     web: Dockerfile
-    command:
-      - serve
-      - /app/build
-      - -l
-      - ${PORT}
+run:
+  web: serve -l $PORT

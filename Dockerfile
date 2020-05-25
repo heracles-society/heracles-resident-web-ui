@@ -21,4 +21,4 @@ WORKDIR /app
 
 COPY --from=builder /app/build /app/build
 
-RUN npm install -g serve
+RUN yarn global add serve
