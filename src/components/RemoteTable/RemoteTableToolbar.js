@@ -58,6 +58,10 @@ export const RemoteTableToolbar = props => {
   );
 };
 
+RemoteTableToolbar.defaultProps = {
+  selected: [],
+};
+
 RemoteTableToolbar.propTypes = {
   title: PropTypes.string,
   selected: PropTypes.array.isRequired,

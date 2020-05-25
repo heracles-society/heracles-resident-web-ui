@@ -7,15 +7,16 @@ WORKDIR /app
 
 COPY package.json .
 COPY yarn.lock .
+COPY .env.* .
 RUN yarn install
 
-COPY . .
-RUN yarn run build
+# COPY . .
+# RUN yarn run build
 
-# Serve App stage
-FROM base as app
-WORKDIR /app
+# # Serve App stage
+# FROM base as app
+# WORKDIR /app
 
-COPY --from=builder /app/build /app/build
+# COPY --from=builder /app/build /app/build
 
-RUN yarn global add serve
+# RUN yarn global add serve

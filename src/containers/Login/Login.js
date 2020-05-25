@@ -9,9 +9,11 @@ import {
 import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import {FcGoogle} from 'react-icons/fc';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Route, useHistory} from 'react-router-dom';
 
 import {ReactComponent as AvatarImage} from '../../images/avatar.svg';
+import {postAPI} from '../../utils/api';
+import {AUTH_KEY} from '../../utils/constants';
 
 export const SESSION__LOGIN_STATE = {
   LOGGED_IN: 'LOGGED_IN',
@@ -31,6 +33,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
+export const AuthenticatedRoute = props => {
+  debugger;
+  const path = props.location?.pathname;
+  const {session, loginPath = '/login', ...restProps} = props;
+  const accessToken = localStorage.getItem(AUTH_KEY);
+  if (accessToken) {
+    return <Route {...restProps} />;
+  } else {
+    return (
+      <Redirect
+        to={{
+          pathname: loginPath,
+          state: {referrer: path},
+        }}
+      />
+    );
+  }
+};
+
 export const LoginView = props => {
   const classes = useStyles(props);
   const [loginState, setLoginState] = React.useState(
@@ -39,9 +60,12 @@ export const LoginView = props => {
   const [token, setToken] = React.useState(null);
   const [googleAccessToken, setGoogleAccessToken] = React.useState(null);
 
+  const history = useHistory();
+
   React.useEffect(() => {
+    debugger;
     try {
-      const token = localStorage.getItem('key');
+      const token = localStorage.getItem(AUTH_KEY);
       setToken(token);
     } catch (error) {
       setToken(null);
@@ -49,20 +73,21 @@ export const LoginView = props => {
   }, []);
 
   React.useEffect(() => {
-    debugger;
     let active = true;
     if (googleAccessToken) {
       setLoginState(SESSION__LOGIN_STATE.IN_PROGRESS);
-      const headers = new Headers();
-      headers.append('Authorization', `Bearer ${googleAccessToken}`);
-      fetch('http://localhost:3200/auth/google/token', {
-        method: 'POST',
-        headers: headers,
-      })
-        .then(e => e.json())
-        .then(data => {
+      postAPI(
+        '/auth/google/token',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${googleAccessToken}`,
+          },
+        },
+      )
+        .then(({data}) => {
           const accessToken = data.accessToken;
-          localStorage.setItem('key', accessToken);
+          localStorage.setItem(AUTH_KEY, accessToken);
           if (active) {
             setToken(accessToken);
             setLoginState(SESSION__LOGIN_STATE.LOGGED_IN);
@@ -85,7 +110,12 @@ export const LoginView = props => {
   }, [googleAccessToken]);
 
   if (token) {
-    return <Redirect to="/manage" />;
+    debugger;
+    let goTo = '/manage';
+    if (history.location.state?.referrer) {
+      goTo = decodeURI(history.location.state.referrer);
+    }
+    return <Redirect to={goTo} />;
   }
 
   return (

@@ -218,8 +218,6 @@ function TablePaginationActions(props) {
   const theme = useTheme();
   const {count, page, rowsPerPage, onChangePage} = props;
 
-  debugger;
-
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
   };

@@ -1,8 +1,8 @@
 import React, {Suspense} from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 
 import Home from '../containers/Home';
-import LoginView from '../containers/Login';
+import LoginView, {AuthenticatedRoute} from '../containers/Login';
 import Management from '../containers/Management';
 import OnboardSociety from '../containers/OnboardSociety';
 
@@ -12,8 +12,9 @@ const Routes = props => {
       <Switch>
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={LoginView} />
-        <Route path="/manage" component={Management} />
+        <AuthenticatedRoute path="/manage" component={Management} />
         <Route path="/onboard-society" component={OnboardSociety} />
+        <Redirect to="/manage" />
       </Switch>
     </Suspense>
   );

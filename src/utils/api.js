@@ -26,10 +26,10 @@ const getAPIDefaults = () => {
      * For HTTP Basic Authorization Header,
      * For Bearer Token, use Authorization in headers
      */
-    auth: {
-      // username: "admin",
-      // password: "admin",
-    },
+    // auth: {
+    //   username: "admin",
+    //   password: "admin",
+    // },
     responseType: 'json',
     responseEncoding: 'utf8',
     /*
