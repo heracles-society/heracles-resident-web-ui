@@ -1,4 +1,5 @@
 build:
-  config: HERACLES_API=https://https://api-heracles.herokuapp.com/
+  config:
+    HERACLES_API: https://https://api-heracles.herokuapp.com/
   docker:
     web: Dockerfile
