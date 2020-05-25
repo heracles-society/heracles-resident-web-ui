@@ -6,7 +6,6 @@ import siteBackgroundImage from '../../images/image_1.jpg';
 import siteBackgroundImageDark from '../../images/image_7.jpg';
 
 const useStyles = makeStyles(theme => {
-  console.log(theme);
   const styles = {
     root: {
       flexGrow: 1,

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import {APP_NAME} from './constants';
 
 const LOG_ENABLED = process.env.NODE_ENV === 'development';

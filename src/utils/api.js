@@ -69,12 +69,14 @@ export const callAPI = async (url, method, options = {}) => {
     if (!(error instanceof APIException)) {
       throw new APIException(error.toJSON().message);
     }
+    /* eslint-disable no-console*/
     console.groupCollapsed('Request failed');
     logError('Operation failed at ');
     console.error(error);
     console.log(error.toJSON());
     console.groupEnd();
     throw new APIException('Operation Failed!');
+    /* eslint-enable no-console*/
   });
 
   return res;

@@ -29,6 +29,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
+    'no-console': ["error", { allow: ["warn", "error"] }],
+    'no-debugger': 2,
     'require-jsdoc': 0,
     'prettier/prettier': 'error',
     'no-invalid-this': 0,

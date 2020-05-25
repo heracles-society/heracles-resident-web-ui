@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const AuthenticatedRoute = props => {
-  debugger;
   const path = props.location?.pathname;
   const {session, loginPath = '/login', ...restProps} = props;
   const accessToken = localStorage.getItem(AUTH_KEY);
@@ -63,7 +62,6 @@ export const LoginView = props => {
   const history = useHistory();
 
   React.useEffect(() => {
-    debugger;
     try {
       const token = localStorage.getItem(AUTH_KEY);
       setToken(token);
@@ -110,7 +108,6 @@ export const LoginView = props => {
   }, [googleAccessToken]);
 
   if (token) {
-    debugger;
     let goTo = '/manage';
     if (history.location.state?.referrer) {
       goTo = decodeURI(history.location.state.referrer);
@@ -177,7 +174,7 @@ export const LoginView = props => {
               setGoogleAccessToken(tokenData.accessToken);
             }}
             onFailure={(...args) => {
-              console.log(args);
+              console.error(args);
             }}
             cookiePolicy={'single_host_origin'}
           />
