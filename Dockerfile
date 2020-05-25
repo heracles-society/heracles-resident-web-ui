@@ -21,8 +21,4 @@ WORKDIR /app
 
 COPY --from=builder /app/build /app/build
 
-ARG UI_PORT=80
-EXPOSE ${UI_PORT}
 RUN npm install -g serve
-CMD ["serve", "/app/build", "-l", "0.0.0.0:${UI_PORT}}"]
-
