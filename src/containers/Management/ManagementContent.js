@@ -2,6 +2,9 @@ import {Box} from '@material-ui/core';
 import * as React from 'react';
 import {useRouteMatch, Route, Redirect, Switch} from 'react-router-dom';
 
+import {Apartments} from './ManagementViews/Apartments';
+import {Complaints} from './ManagementViews/Complaints';
+
 const ManagementRouteComponent = props => {
   return <pre>{JSON.stringify(props, null, 2)}</pre>;
 };
@@ -10,11 +13,7 @@ const ManagementComponent = props => {
   const {path} = useRouteMatch();
   return (
     <Switch>
-      <Route
-        exact
-        path={`${path}/complaints`}
-        component={ManagementRouteComponent}
-      />
+      <Route exact path={`${path}/complaints`} component={Complaints} />
       <Route
         exact
         path={`${path}/reservations`}
@@ -29,11 +28,7 @@ const ManagementComponent = props => {
         path={`${path}/notifications`}
         component={ManagementRouteComponent}
       />
-      <Route
-        exact
-        path={`${path}/societies`}
-        component={ManagementRouteComponent}
-      />
+      <Route exact path={`${path}/apartments`} component={Apartments} />
       <Route
         exact
         path={`${path}/profile`}
@@ -44,7 +39,7 @@ const ManagementComponent = props => {
         path={`${path}/settings`}
         component={ManagementRouteComponent}
       />
-      <Redirect to={`${path}/complaints`} />
+      <Redirect to={`${path}/apartments`} />
     </Switch>
   );
 };

@@ -59,7 +59,7 @@ export const Page = props => {
             display="flex"
             flex="1"
             flexDirection="column"
-            style={{padding: 24}}
+            style={{padding: 24, overflow: 'auto'}}
           >
             <AppBar position="static">
               <Toolbar>

@@ -75,13 +75,13 @@ const useStyles = makeStyles(theme => ({
   societyImageWrapper: {
     position: 'relative',
     height: '100%',
-    flex: 1,
+    flex: '0 0 320px',
     backgroundImage: `url(${
       theme.palette.type === 'dark'
         ? siteBackgroundImageDark
         : siteBackgroundImage
     })`,
-    backgroundSize: 'cover',
+    backgroundSize: 'auto',
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'right top',
   },

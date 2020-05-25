@@ -17,6 +17,12 @@ const ManagementNavigation = props => {
   return (
     <>
       <List>
+        <ListItem button onClick={goToLink('apartments')}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Apartments" />
+        </ListItem>
         <ListItem button onClick={goToLink('complaints')}>
           <ListItemIcon>
             <InboxIcon />
@@ -43,12 +49,6 @@ const ManagementNavigation = props => {
             <MailIcon />
           </ListItemIcon>
           <ListItemText primary="Notifications" />
-        </ListItem>
-        <ListItem button onClick={goToLink('societies')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Societies" />
         </ListItem>
         <ListItem button onClick={goToLink('profile')}>
           <ListItemIcon>

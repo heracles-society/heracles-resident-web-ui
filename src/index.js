@@ -10,11 +10,9 @@ const rootElement = document.querySelector('.root');
 
 const render = Component => {
   ReactDOM.render(
-    <React.StrictMode>
-      <Root>
-        <App />
-      </Root>
-    </React.StrictMode>,
+    <Root>
+      <App />
+    </Root>,
     rootElement,
   );
 };

@@ -42,7 +42,7 @@ const getAPIDefaults = () => {
   };
 };
 
-export const callAPI = (url, method, options = {}) => {
+export const callAPI = async (url, method, options = {}) => {
   const {
     headers: defaultHeaders,
     params: defaultParams,
@@ -57,29 +57,27 @@ export const callAPI = (url, method, options = {}) => {
   }
 
   const config = merge(defaults, options);
-  return new Promise(async (resolve, reject) => {
-    try {
-      const res = await axios({
-        ...config,
-        headers: _headers,
-        params: _params,
-        url: url,
-        method: method,
-      });
-      const {data} = res;
-      resolve(data);
-    } catch (error) {
-      if (!(error instanceof APIException)) {
-        reject(new APIException(error.toJSON().message));
-      }
-      console.groupCollapsed('Request failed');
-      logError('Operation failed at ');
-      console.error(error);
-      console.log(error.toJSON());
-      console.groupEnd();
-      reject(new APIException('Operation Failed!'));
-    }
+  const res = axios({
+    ...config,
+    headers: _headers,
+    params: _params,
+    url: url,
+    method: method,
   });
+
+  res.catch(error => {
+    if (!(error instanceof APIException)) {
+      throw new APIException(error.toJSON().message);
+    }
+    console.groupCollapsed('Request failed');
+    logError('Operation failed at ');
+    console.error(error);
+    console.log(error.toJSON());
+    console.groupEnd();
+    throw new APIException('Operation Failed!');
+  });
+
+  return res;
 };
 
 export const getAPI = (url, options) => {
