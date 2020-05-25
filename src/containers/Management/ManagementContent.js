@@ -4,6 +4,7 @@ import {useRouteMatch, Route, Redirect, Switch} from 'react-router-dom';
 
 import {Apartments} from './ManagementViews/Apartments';
 import {Complaints} from './ManagementViews/Complaints';
+import {Reservations} from './ManagementViews/Reservations';
 
 const ManagementRouteComponent = props => {
   return <pre>{JSON.stringify(props, null, 2)}</pre>;
@@ -14,11 +15,7 @@ const ManagementComponent = props => {
   return (
     <Switch>
       <Route exact path={`${path}/complaints`} component={Complaints} />
-      <Route
-        exact
-        path={`${path}/reservations`}
-        component={ManagementRouteComponent}
-      />
+      <Route exact path={`${path}/reservations`} component={Reservations} />
       <Route
         path={`${path}/bills-and-payments`}
         component={ManagementRouteComponent}

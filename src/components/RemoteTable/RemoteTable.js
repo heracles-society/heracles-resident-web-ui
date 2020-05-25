@@ -2,7 +2,7 @@ import {Box, LinearProgress} from '@material-ui/core';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Paper from '@material-ui/core/Paper';
-import {lighten, makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,20 +11,16 @@ import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
-import Toolbar from '@material-ui/core/Toolbar';
-import Tooltip from '@material-ui/core/Tooltip';
 import Typography from '@material-ui/core/Typography';
-import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import FirstPageIcon from '@material-ui/icons/FirstPage';
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import * as React from 'react';
 
+import EmptyPackageImage from '../../images/empty_package.svg';
 import {getAPI} from '../../utils/api';
 
 function RemoteTableHead(props) {
@@ -91,77 +87,6 @@ RemoteTableHead.propTypes = {
   rowCount: PropTypes.number.isRequired,
 };
 
-const useToolbarStyles = makeStyles(theme => ({
-  root: {
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(1),
-  },
-  highlight:
-    theme.palette.type === 'light'
-      ? {
-          color: theme.palette.secondary.main,
-          backgroundColor: lighten(theme.palette.secondary.light, 0.85),
-        }
-      : {
-          color: theme.palette.text.primary,
-          backgroundColor: theme.palette.secondary.dark,
-        },
-  title: {
-    flex: '1 1 100%',
-  },
-}));
-
-const RemoteTableToolbar = props => {
-  const classes = useToolbarStyles();
-  const {numSelected, title} = props;
-
-  return (
-    <Toolbar
-      className={clsx(classes.root, {
-        [classes.highlight]: numSelected > 0,
-      })}
-    >
-      {numSelected > 0 ? (
-        <Typography
-          className={classes.title}
-          color="inherit"
-          variant="subtitle1"
-          component="div"
-        >
-          {numSelected} selected
-        </Typography>
-      ) : (
-        <Typography
-          className={classes.title}
-          variant="h6"
-          id="tableTitle"
-          component="div"
-        >
-          {title}
-        </Typography>
-      )}
-
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton aria-label="filter list">
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-    </Toolbar>
-  );
-};
-
-RemoteTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
-
 const useStyles = makeStyles(theme => ({
   root: {
     width: '100%',
@@ -216,11 +141,24 @@ const RemoteTableBody = props => {
           >
             <Box
               display="flex"
+              flexDirection="column"
               justifyContent="center"
               alignItems="center"
-              style={{height: '100%'}}
+              style={{
+                height: '100%',
+                backgroundImage: `url(${EmptyPackageImage})`,
+                backgroundSize: '200px',
+                backgroundPosition: '90% center',
+                backgroundRepeat: 'no-repeat no-repeat',
+              }}
             >
-              <Typography>Nothing data found...</Typography>
+              <Typography
+                variant="h6"
+                component="span"
+                style={{fontStyle: 'italic'}}
+              >
+                No data found...
+              </Typography>
             </Box>
           </TableCell>
         </TableRow>
@@ -280,6 +218,8 @@ function TablePaginationActions(props) {
   const theme = useTheme();
   const {count, page, rowsPerPage, onChangePage} = props;
 
+  debugger;
+
   const handleFirstPageButtonClick = event => {
     onChangePage(event, 0);
   };
@@ -295,8 +235,6 @@ function TablePaginationActions(props) {
   const handleLastPageButtonClick = event => {
     onChangePage(event, Math.max(0, Math.ceil(count / rowsPerPage) - 1));
   };
-
-  debugger;
 
   return (
     <div className={classes.tablePaginationRoot}>
@@ -364,9 +302,9 @@ export const RemoteTable = props => {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [data, setData] = React.useState([]);
-  const [total, setTotal] = React.useState([]);
+  const [total, setTotal] = React.useState(0);
   const [status, setStatus] = React.useState('');
-  const {columns, columnKey, rowKey, remoteURL, title, dense} = props;
+  const {columns, columnKey, rowKey, remoteURL, toolbar, dense} = props;
   const rows = data.slice(0, rowsPerPage);
 
   const handleRequestSort = (event, property) => {
@@ -443,10 +381,17 @@ export const RemoteTable = props => {
     return () => (isActive = false);
   }, [order, orderBy, page, remoteURL, rowsPerPage, lastFetch]);
 
+  const toolbarComponent = toolbar
+    ? React.cloneElement(toolbar, {
+        data,
+        total,
+        selected,
+      })
+    : null;
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <RemoteTableToolbar numSelected={selected.length} title={title} />
+        {toolbarComponent}
         {status === 'LOADING' && <LinearProgress variant="indeterminate" />}
         <TableContainer>
           <Table
@@ -502,6 +447,7 @@ RemoteTable.defaultProps = {
 };
 
 RemoteTable.propTypes = {
+  toolbar: PropTypes.node,
   columns: PropTypes.arrayOf(
     PropTypes.shape({
       numeric: PropTypes.bool,

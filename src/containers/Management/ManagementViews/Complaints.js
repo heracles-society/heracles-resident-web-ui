@@ -2,7 +2,7 @@ import {Box} from '@material-ui/core';
 import {formatDistanceToNow, isValid} from 'date-fns';
 import * as React from 'react';
 
-import RemoteTable from '../../../components/RemoteTable';
+import RemoteTable, {RemoteTableToolbar} from '../../../components/RemoteTable';
 const columns = [
   {
     title: 'Created at',
@@ -29,6 +29,7 @@ export const Complaints = props => {
     <Box display="flex" flexDirection="row" flex="1">
       <Box flex="1">
         <RemoteTable
+          toolbar={<RemoteTableToolbar title="Complaints" />}
           columns={columns}
           columnKey="id"
           title="Complaints"

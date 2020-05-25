@@ -23,17 +23,20 @@ const ManagementNavigation = props => {
           </ListItemIcon>
           <ListItemText primary="Apartments" />
         </ListItem>
-        <ListItem button onClick={goToLink('complaints')}>
-          <ListItemIcon>
-            <InboxIcon />
-          </ListItemIcon>
-          <ListItemText primary="Complaints" />
-        </ListItem>
         <ListItem button onClick={goToLink('reservations')}>
           <ListItemIcon>
             <MailIcon />
           </ListItemIcon>
           <ListItemText primary="Reservations" />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        <ListItem button onClick={goToLink('complaints')}>
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Complaints" />
         </ListItem>
         <ListItem button onClick={goToLink('bills-and-payments')}>
           <ListItemIcon>
@@ -56,9 +59,6 @@ const ManagementNavigation = props => {
           </ListItemIcon>
           <ListItemText primary="Profile" />
         </ListItem>
-      </List>
-      <Divider />
-      <List>
         <ListItem button onClick={goToLink('settings')}>
           <ListItemIcon>
             <InboxIcon />
