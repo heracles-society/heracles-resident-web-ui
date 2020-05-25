@@ -4,4 +4,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: serve -l $PORT
+  web: serve /app/build -l $PORT
