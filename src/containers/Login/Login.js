@@ -15,16 +15,20 @@ import {FcGoogle} from 'react-icons/fc';
 import {useSelector, useDispatch} from 'react-redux';
 import {Redirect, Route, useHistory} from 'react-router-dom';
 
-import {ReactComponent as AvatarImage} from '../../images/avatar.svg';
 import {startGoogleTokenExchange} from '../../redux/actions/session';
 import {SESSION_STATUS} from '../../redux/reducers/session';
 
 const useStyles = makeStyles(theme => ({
   root: {
     height: '100%',
+  },
+  leftSide: {
+    // backgroundImage: `url(${LoginImage})`,
+  },
+  rightSide: {
     background:
       theme.palette.type === 'dark'
-        ? 'linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(67, 64, 97) 100%);'
+        ? 'linear-gradient(45deg, rgb(7, 14, 24) 14%, rgb(127, 43, 87) 51%, rgb(197, 62, 95) 73%, rgb(225, 83, 98) 87%, rgb(235, 98, 95) 100%);'
         : 'linear-gradient(45deg, rgb(210, 85, 127) 0%, rgb(231, 68, 87) 53%, rgb(235, 138, 61) 100%)',
   },
   backdrop: {
@@ -80,40 +84,50 @@ export const LoginView = props => {
           <CircularProgress color="primary" />
         </Backdrop>
       )}
-
-      <Box flex="1" classes={classes.leftSide} />
+      <Box flex="1" className={classes.leftSide} />
       <Box
-        flex="0 0 40%"
+        className={classes.rightSide}
+        flex="0 0 60%"
         display="flex"
         flexDirection="column"
         justifyContent="stretch"
         alignItems="stretch"
         style={{
           display: 'flex',
-          maxWidth: '500px',
+          // maxWidth: '500px',
           flexDirection: 'row',
           justifyContent: 'center',
-          alignItems: 'stretch',
-          textAlign: 'center',
+          alignItems: 'center',
+          // textAlign: 'center',
         }}
       >
         <Paper
+          elevation={24}
           style={{
-            padding: 24,
-            flex: 1,
+            padding: '64px',
+            // flex: 1,
             display: 'flex',
             flexDirection: 'column',
-            alignItems: 'center',
+            maxWidth: '500px',
+            // alignItems: 'center',
           }}
         >
-          <AvatarImage
-            style={{width: '120', height: '120', margin: '24px 0'}}
-          />
           <Typography
             variant="h3"
-            style={{fontFamily: 'Rubik', fontWeight: 700, margin: '24px 0'}}
+            color="primary"
+            style={{fontFamily: 'Rubik', fontWeight: 'bolder'}}
           >
-            Welcome back
+            Heracles.
+          </Typography>
+          <Typography
+            variant="h5"
+            style={{
+              fontFamily: 'Rubik',
+              margin: '24px 0 12px 0',
+              padding: '12px 0',
+            }}
+          >
+            Hey there, Let&apos;s get you started.
           </Typography>
           <GoogleLogin
             style={{flex: 1}}
@@ -124,10 +138,16 @@ export const LoginView = props => {
                 onClick={renderProps.onClick}
                 disabled={renderProps.disabled}
               >
-                <SvgIcon fontSize="default">
-                  <FcGoogle />
-                </SvgIcon>
-                <span style={{paddingLeft: 8}}>Login with Google</span>
+                <>
+                  {renderProps.disabled ? (
+                    <CircularProgress variant="indeterminate" size="1rem" />
+                  ) : (
+                    <SvgIcon fontSize="default">
+                      <FcGoogle />
+                    </SvgIcon>
+                  )}
+                  <span style={{paddingLeft: 8}}>Login with Google</span>
+                </>
               </Button>
             )}
             buttonText="Sign in with Google"
