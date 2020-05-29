@@ -59,6 +59,8 @@ export const OnboardSociety = props => {
   const dispatch = useDispatch();
   const onboardingState = useSelector(state => state.onboarding);
   const onboardingData = onboardingState.data;
+  const societyData = onboardingData.societies;
+  const selectedSociety = societyData.selectedSociety;
 
   React.useEffect(() => {
     dispatch(fetchUserOnboardingState());
@@ -211,10 +213,9 @@ export const OnboardSociety = props => {
                         className={classes.primaryAddressText}
                         variant="h4"
                       >
-                        Society 1,
+                        {selectedSociety?.name ?? 'Society 1'},{' '}
                         <span className={classes.secondaryAddressText}>
-                          {' '}
-                          KA
+                          {selectedSociety?.state ?? 'KA'}
                         </span>
                       </Typography>
                       <Typography
@@ -223,7 +224,8 @@ export const OnboardSociety = props => {
                         color="textSecondary"
                         gutterBottom
                       >
-                        HSR Layout, Sector 3. Bangalore
+                        {selectedSociety?.address ??
+                          'HSR Layout, Sector 3. Bangalore'}
                       </Typography>
                     </Box>
                     <Divider />
@@ -261,7 +263,8 @@ export const OnboardSociety = props => {
                           component="h3"
                           style={{fontWeight: 700, fontFamily: 'Rubik'}}
                         >
-                          8000 sqft.
+                          {selectedSociety?.area ?? '8000'}{' '}
+                          {selectedSociety?.areaUnit ?? 'sqft.'}
                         </Typography>
                       </Box>
                       <Box flex="0 0 33%">
@@ -315,7 +318,7 @@ export const OnboardSociety = props => {
                           component="h3"
                           style={{fontWeight: 700, fontFamily: 'Rubik'}}
                         >
-                          4/5
+                          {selectedSociety?.happinessIndex ?? 4}/10
                         </Typography>
                       </Box>
                       <Box flex="0 0 33%">
@@ -331,7 +334,7 @@ export const OnboardSociety = props => {
                           component="h3"
                           style={{fontWeight: 700, fontFamily: 'Rubik'}}
                         >
-                          8/10
+                          {selectedSociety?.safetyIndex ?? 8}/10
                         </Typography>
                       </Box>
                     </Box>
@@ -351,15 +354,7 @@ export const OnboardSociety = props => {
                       </Box>
                       <Box flex="0 0 66%">
                         <Typography color="textSecondary" variant="subtitle2">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit, sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua. Ut enim ad minim veniam, quis
-                          nostrud exercitation ullamco laboris nisi ut aliquip
-                          ex ea commodo consequat. Duis aute irure dolor in
-                          reprehenderit in voluptate velit esse cillum dolore eu
-                          fugiat nulla pariatur. Excepteur sint occaecat
-                          cupidatat non proident, sunt in culpa qui officia
-                          deserunt mollit anim id est laborum.
+                          {selectedSociety?.highlights}
                         </Typography>
                       </Box>
                     </Box>
