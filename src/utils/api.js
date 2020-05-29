@@ -3,7 +3,6 @@ import merge from 'lodash/merge';
 import {stringify} from 'qs';
 
 import {BASE_API, AUTH_KEY} from './constants';
-import {loadData} from './localStorage';
 import {logError} from './logger';
 
 class APIException extends Error {}
@@ -51,7 +50,7 @@ export const callAPI = async (url, method, options = {}) => {
   const {headers, params} = options;
   const _headers = merge(defaultHeaders, headers);
   const _params = merge(defaultParams, params);
-  const authorizationKey = loadData(AUTH_KEY);
+  const authorizationKey = localStorage.getItem(AUTH_KEY);
   if (authorizationKey && !_headers.Authorization) {
     _headers['Authorization'] = `Bearer ${authorizationKey}`;
   }

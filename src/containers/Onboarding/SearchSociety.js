@@ -90,3 +90,11 @@ export const SearchSociety = props => {
     />
   );
 };
+
+SearchSociety.defaultProps = {
+  loading: false,
+  societies: [],
+  selectedSociety: null,
+  onChange: () => {},
+  onInputChange: () => {},
+};

@@ -1,13 +1,14 @@
 import {stringify} from 'qs';
 import {take, call, fork, cancel, put, select, delay} from 'redux-saga/effects';
 
-import {getAPI} from '../../../utils/api';
+import {getAPI, postAPI} from '../../../utils/api';
 import {logError} from '../../../utils/logger';
 import {
   setStatus,
   setMessage,
   setOnboardingData,
   setSocietyData,
+  fetchUserOnboardingState,
 } from '../../actions/views/onboarding';
 import {ONBOARDING_STATUS} from '../../reducers/views/onboarding';
 export const ONBOARDING__FETCH_STATE = '[SAGAS] ONBOARDING__FETCH_STATE';
@@ -56,7 +57,7 @@ export function* fetchUserOnBoardingStateSaga() {
   }
 }
 
-export function* fetchSocietiesSagaTask(search) {
+function* fetchSocietiesSagaTask(search) {
   try {
     yield delay(500);
     const {data: onboardingState} = yield select(state => state.onboarding);
@@ -101,5 +102,36 @@ export function* fetchSocietiesSaga() {
       yield cancel(task);
     }
     task = yield fork(fetchSocietiesSagaTask);
+  }
+}
+
+function* requestOnboardingSagaTask(societyId) {
+  try {
+    yield delay(500);
+    const {data: sessionData} = yield select(state => state.session);
+    yield put(setStatus(ONBOARDING_STATUS.LOADING));
+    yield call(postAPI, '/events', {
+      society: societyId,
+      name: `On boarding ${sessionData.user.email}`,
+      kind: 'ONBOARDING',
+      description: `On boarding ${sessionData.user.email}`,
+      createdBy: sessionData.user._id,
+    });
+    yield put(setStatus(ONBOARDING_STATUS.SUCCESS));
+    yield put(fetchUserOnboardingState());
+  } catch (error) {
+    logError(error);
+    yield put(setStatus(ONBOARDING_STATUS.FAILED));
+  }
+}
+
+export function* requestOnboardingSaga() {
+  let task;
+  while (true) {
+    const action = yield take(ONBOARDING__REQUEST_NEW);
+    if (task) {
+      yield cancel(task);
+    }
+    task = yield fork(requestOnboardingSagaTask, action.payload.societyId);
   }
 }

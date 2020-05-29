@@ -9,6 +9,9 @@ import {
   Divider,
   Toolbar,
   AppBar,
+  Backdrop,
+  CircularProgress,
+  fade,
 } from '@material-ui/core';
 import React from 'react';
 import {useSelector, useDispatch} from 'react-redux';
@@ -22,6 +25,7 @@ import Image1 from '../../images/image_3.jpg';
 import {
   fetchUserOnboardingState,
   setSocietyData,
+  requestOnboarding,
 } from '../../redux/actions/views/onboarding';
 import {ONBOARDING_STATUS} from '../../redux/reducers/views/onboarding';
 
@@ -52,6 +56,10 @@ const useStyles = makeStyles(theme => ({
     fontFamily: theme.typography.fontFamilyTitle,
     color: theme.palette.text.secondary,
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: fade(theme.palette.background.default, 0.9),
+  },
 }));
 
 export const OnboardSociety = props => {
@@ -76,6 +84,11 @@ export const OnboardSociety = props => {
         maxWidth="lg"
         style={{minHeight: '100%', position: 'relative', padding: 0}}
       >
+        {onboardingState.status === ONBOARDING_STATUS.LOADING && (
+          <Backdrop className={classes.backdrop} open={true}>
+            <CircularProgress color="primary" />
+          </Backdrop>
+        )}
         <Box display="flex" flexDirection="row">
           <Box
             display="flex"
@@ -189,7 +202,13 @@ export const OnboardSociety = props => {
                       flexDirection="column"
                       alignItems="stretch"
                     >
-                      <Button variant="contained" color="primary">
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => {
+                          dispatch(requestOnboarding(selectedSociety._id));
+                        }}
+                      >
                         Request onboarding
                       </Button>
                     </Box>
@@ -419,17 +438,14 @@ export const OnboardSociety = props => {
               >
                 <Paper component="form">
                   <SearchSociety
-                    loading={
-                      onboardingData.societies.status ===
-                      ONBOARDING_STATUS.LOADING
-                    }
-                    societies={onboardingData.societies.data}
-                    selectedSociety={onboardingData.societies.selectedSociety}
+                    loading={societyData.status === ONBOARDING_STATUS.LOADING}
+                    societies={societyData.data}
+                    selectedSociety={societyData.selectedSociety}
                     onChange={newSelectedSociety => {
                       dispatch(
                         setSocietyData({
-                          data: onboardingData.societies.data,
-                          status: onboardingData.societies.status,
+                          data: societyData.data,
+                          status: societyData.status,
                           selectedSociety: newSelectedSociety,
                         }),
                       );
@@ -439,11 +455,11 @@ export const OnboardSociety = props => {
                   />
                 </Paper>
               </Box>
-              {onboardingData.societies.selectedSociety && (
+              {societyData.selectedSociety && (
                 <Map
                   interactive
-                  longitude={onboardingData.societies.selectedSociety.longitude}
-                  latitude={onboardingData.societies.selectedSociety.latitude}
+                  longitude={societyData.selectedSociety.longitude}
+                  latitude={societyData.selectedSociety.latitude}
                 />
               )}
             </Paper>
