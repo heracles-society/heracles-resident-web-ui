@@ -2,8 +2,8 @@ import {makeStyles, Grid, Box, Typography, Button} from '@material-ui/core';
 import * as React from 'react';
 import {useHistory} from 'react-router-dom';
 
-import siteBackgroundImage from '../../images/image_1.jpg';
-import siteBackgroundImageDark from '../../images/image_7.jpg';
+import siteBackgroundImageDark from '../../images/image_2.jpg';
+import siteBackgroundImage from '../../images/image_4.jpg';
 
 const useStyles = makeStyles(theme => {
   const styles = {
@@ -42,7 +42,9 @@ const useStyles = makeStyles(theme => {
       fontFamily: 'Rubik',
       height: '240px',
     },
-    leftSection: {},
+    leftSection: {
+      maxWidth: '90%',
+    },
   };
   return styles;
 });
@@ -86,44 +88,46 @@ export const Home = props => {
         flex="1"
         className={classes.mainContent}
       >
-        <Grid item lg={7} md={7} sm={7}>
-          <Box p={3} className={classes.leftSection}>
-            <Typography classes={{root: classes.welcomeText}} variant="h2">
-              Let&apos;s connect you with
-            </Typography>
-            <Typography
-              classes={{root: classes.welcomeText}}
-              style={{paddingTop: 0}}
-              variant="h2"
-            >
-              your <ConnectToText />
-            </Typography>
-          </Box>
-          <Box p={3}>
-            <Button
-              variant="contained"
-              color="primary"
-              disableElevation
-              onClick={() => {
-                history.push('/login');
-              }}
-            >
-              Start for free
-            </Button>
-          </Box>
-          <Box p={3} flexGrow={0} flexBasis={2}>
-            <Typography variant="h6">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut
-            </Typography>
-            <Typography variant="h6">
-              labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-              nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat.
-            </Typography>
+        <Grid item lg={8} md={8} sm={8}>
+          <Box className={classes.leftSection}>
+            <Box p={3}>
+              <Typography classes={{root: classes.welcomeText}} variant="h2">
+                Let&apos;s connect you with
+              </Typography>
+              <Typography
+                classes={{root: classes.welcomeText}}
+                style={{paddingTop: 0}}
+                variant="h2"
+              >
+                your <ConnectToText />
+              </Typography>
+            </Box>
+            <Box p={3}>
+              <Button
+                variant="contained"
+                color="primary"
+                disableElevation
+                onClick={() => {
+                  history.push('/login');
+                }}
+              >
+                Start for free
+              </Button>
+            </Box>
+            <Box p={3} flexGrow={0} flexBasis={2}>
+              <Typography variant="h6">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut
+              </Typography>
+              <Typography variant="h6">
+                labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+              </Typography>
+            </Box>
           </Box>
         </Grid>
-        <Grid item lg={5} md={5} sm={5} className={classes.siteImage} />
+        <Grid item lg={4} md={4} sm={4} className={classes.siteImage} />
       </Grid>
     </Box>
   );
