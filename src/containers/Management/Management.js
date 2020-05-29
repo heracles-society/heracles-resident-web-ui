@@ -7,7 +7,7 @@ import ManagementNavigation from './ManagementNavigation';
 import {Page} from '../../components/Layout';
 import siteBackgroundImageDark from '../../images/image_2.jpg';
 import siteBackgroundImage from '../../images/image_4.jpg';
-import {SearchSociety} from '../OnboardSociety';
+import {SearchSociety} from '../Onboarding';
 
 const drawerWidth = 240;
 

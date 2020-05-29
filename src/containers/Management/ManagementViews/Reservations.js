@@ -18,7 +18,7 @@ import * as React from 'react';
 
 import Map from '../../../components/Map';
 import RemoteTable, {RemoteTableToolbar} from '../../../components/RemoteTable';
-import {SearchSociety} from '../../OnboardSociety';
+import {SearchSociety} from '../../Onboarding';
 const columns = [
   {
     title: 'From',

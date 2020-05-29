@@ -1,16 +1,18 @@
-import {all, fork, delay} from 'redux-saga/effects';
+import {all, fork} from 'redux-saga/effects';
 
-function* dummy() {
-  while (true) {
-    try {
-      yield delay(5500);
-      yield 'testing';
-    } catch (error) {}
-  }
-}
+import {exchangeGoogleTokenSaga, restoreSessionSaga} from './session';
+import {
+  fetchUserOnBoardingStateSaga,
+  fetchSocietiesSaga,
+} from './views/onboarding';
 
 function* watchSagas() {
-  yield all([fork(dummy)]);
+  yield all([
+    fork(fetchUserOnBoardingStateSaga),
+    fork(fetchSocietiesSaga),
+    fork(restoreSessionSaga),
+    fork(exchangeGoogleTokenSaga),
+  ]);
 }
 
 export default watchSagas;

@@ -5,23 +5,19 @@ import {
   Paper,
   SvgIcon,
   Typography,
+  Backdrop,
+  CircularProgress,
+  fade,
 } from '@material-ui/core';
 import * as React from 'react';
 import GoogleLogin from 'react-google-login';
 import {FcGoogle} from 'react-icons/fc';
+import {useSelector, useDispatch} from 'react-redux';
 import {Redirect, Route, useHistory} from 'react-router-dom';
 
 import {ReactComponent as AvatarImage} from '../../images/avatar.svg';
-import {postAPI} from '../../utils/api';
-import {AUTH_KEY} from '../../utils/constants';
-
-export const SESSION__LOGIN_STATE = {
-  LOGGED_IN: 'LOGGED_IN',
-  LOGGED_OUT: 'LOGGED_OUT',
-  IN_PROGRESS: 'IN_PROGRESS',
-  LOGIN_SUCCESSFUL: 'LOGIN_SUCCESSFUL',
-  LOGIN_FAILED: 'LOGIN_FAILED',
-};
+import {startGoogleTokenExchange} from '../../redux/actions/session';
+import {SESSION_STATUS} from '../../redux/reducers/session';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,13 +27,17 @@ const useStyles = makeStyles(theme => ({
         ? 'linear-gradient(45deg, rgb(0, 0, 0) 0%, rgb(67, 64, 97) 100%);'
         : 'linear-gradient(45deg, rgb(210, 85, 127) 0%, rgb(231, 68, 87) 53%, rgb(235, 138, 61) 100%)',
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    backgroundColor: fade(theme.palette.background.default, 0.9),
+  },
 }));
 
 export const AuthenticatedRoute = props => {
   const path = props.location?.pathname;
   const {session, loginPath = '/login', ...restProps} = props;
-  const accessToken = localStorage.getItem(AUTH_KEY);
-  if (accessToken) {
+  const loginState = useSelector(state => state.session?.status);
+  if (loginState === SESSION_STATUS.LOGGED_IN) {
     return <Route {...restProps} />;
   } else {
     return (
@@ -53,62 +53,20 @@ export const AuthenticatedRoute = props => {
 
 export const LoginView = props => {
   const classes = useStyles(props);
-  const [loginState, setLoginState] = React.useState(
-    SESSION__LOGIN_STATE.LOGGED_OUT,
-  );
-  const [token, setToken] = React.useState(null);
+  const loginState = useSelector(state => state.session?.status);
+  const dispatch = useDispatch();
   const [googleAccessToken, setGoogleAccessToken] = React.useState(null);
 
   const history = useHistory();
 
   React.useEffect(() => {
-    try {
-      const token = localStorage.getItem(AUTH_KEY);
-      setToken(token);
-    } catch (error) {
-      setToken(null);
-    }
-  }, []);
-
-  React.useEffect(() => {
-    let active = true;
     if (googleAccessToken) {
-      setLoginState(SESSION__LOGIN_STATE.IN_PROGRESS);
-      postAPI(
-        '/auth/google/token',
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${googleAccessToken}`,
-          },
-        },
-      )
-        .then(({data}) => {
-          const accessToken = data.accessToken;
-          localStorage.setItem(AUTH_KEY, accessToken);
-          if (active) {
-            setToken(accessToken);
-            setLoginState(SESSION__LOGIN_STATE.LOGGED_IN);
-          }
-        })
-        .catch(() => {
-          if (active) {
-            setToken(null);
-            setLoginState(SESSION__LOGIN_STATE.LOGGED_OUT);
-          }
-        });
-    } else {
-      if (active) {
-        setLoginState(SESSION__LOGIN_STATE.LOGGED_OUT);
-      }
+      dispatch(startGoogleTokenExchange(googleAccessToken));
     }
-    return () => {
-      active = false;
-    };
-  }, [googleAccessToken]);
+  }, [dispatch, googleAccessToken]);
 
-  if (token) {
-    let goTo = '/manage';
+  if (loginState === SESSION_STATUS.LOGGED_IN) {
+    let goTo = '/onboarding';
     if (history.location.state?.referrer) {
       goTo = decodeURI(history.location.state.referrer);
     }
@@ -117,6 +75,12 @@ export const LoginView = props => {
 
   return (
     <Box display="flex" flexDirection="root" className={classes.root}>
+      {loginState === SESSION_STATUS.LOGIN_IN_PROGRESS && (
+        <Backdrop className={classes.backdrop} open={true}>
+          <CircularProgress color="primary" />
+        </Backdrop>
+      )}
+
       <Box flex="1" classes={classes.leftSide} />
       <Box
         flex="0 0 40%"
@@ -158,10 +122,7 @@ export const LoginView = props => {
               <Button
                 variant="outlined"
                 onClick={renderProps.onClick}
-                disabled={
-                  renderProps.disabled ||
-                  loginState === SESSION__LOGIN_STATE.IN_PROGRESS
-                }
+                disabled={renderProps.disabled}
               >
                 <SvgIcon fontSize="default">
                   <FcGoogle />

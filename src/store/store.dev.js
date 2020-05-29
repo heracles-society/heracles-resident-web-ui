@@ -13,7 +13,6 @@ const configureStore = preloadedState => {
   const sagaMiddleware = createSagaMiddleware({
     sagaMonitor: createSagaMonitor({
       level: 'log',
-      actionDispatch: true,
     }),
   });
   const composeEnhancers =

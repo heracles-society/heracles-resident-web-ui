@@ -5,12 +5,6 @@ import HomeWorkTwoToneIcon from '@material-ui/icons/HomeWorkTwoTone';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import React from 'react';
 
-function sleep(delay = 0) {
-  return new Promise(resolve => {
-    setTimeout(resolve, delay);
-  });
-}
-
 const useStyles = makeStyles(theme => ({
   icon: {
     color: theme.palette.text.secondary,
@@ -22,53 +16,44 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export const SearchSociety = props => {
-  const [open, setOpen] = React.useState(false);
-  const [options, setOptions] = React.useState([]);
-  const loading = open && options.length === 0;
+  const [inputValue, setInputValue] = React.useState('');
+  const {loading, onInputChange, onChange, societies, selectedSociety} = props;
   const classes = useStyles();
 
   React.useEffect(() => {
-    let active = true;
+    onInputChange(inputValue);
+  }, [inputValue, onInputChange]);
 
-    if (!loading) {
-      return undefined;
+  let options = [];
+  if (selectedSociety) {
+    const selectedSocietyInOptions = societies.find(
+      society => selectedSociety._id === society._id,
+    );
+    if (!selectedSocietyInOptions) {
+      options = [selectedSociety];
     }
-
-    (async () => {
-      await sleep(1e3); // For demo purposes.
-
-      if (active) {
-        setOptions([{title: 'Soceity 1'}, {title: 'Soceity 2'}]);
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([]);
-    }
-  }, [open]);
+  }
+  options = [...options, ...societies];
 
   return (
     <Autocomplete
       id="search-society"
       style={props.styles}
       classes={{inputRoot: classes.inputRoot}}
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      getOptionSelected={(option, value) => option.title === value.title}
-      getOptionLabel={option => option.title}
+      autoComplete
+      filterOptions={x => x}
+      getOptionSelected={option => option._id === selectedSociety._id}
+      getOptionLabel={option => option.name}
       options={options}
       loading={loading}
+      value={selectedSociety}
+      disableClearable
+      onChange={(_, newValue) => {
+        onChange(newValue);
+      }}
+      onInputChange={(_, newInputValue) => {
+        setInputValue(newInputValue);
+      }}
       renderInput={params => (
         <TextField
           {...params}
@@ -94,9 +79,9 @@ export const SearchSociety = props => {
               <HomeWorkTwoToneIcon fontSize="small" className={classes.icon} />
             </Grid>
             <Grid item xs>
-              Society 1
+              {option.name}
               <Typography variant="body2" color="textSecondary">
-                HSR Layout, Sector 3
+                {option.address}
               </Typography>
             </Grid>
           </Grid>

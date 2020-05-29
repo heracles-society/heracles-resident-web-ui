@@ -11,12 +11,19 @@ import {
   AppBar,
 } from '@material-ui/core';
 import React from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {Redirect} from 'react-router-dom';
 
 import PricingTrends from './PricingTrends';
 import {SearchSociety} from './SearchSociety';
 
 import Map from '../../components/Map';
 import Image1 from '../../images/image_3.jpg';
+import {
+  fetchUserOnboardingState,
+  setSocietyData,
+} from '../../redux/actions/views/onboarding';
+import {ONBOARDING_STATUS} from '../../redux/reducers/views/onboarding';
 
 const imageStyles = {
   display: 'block',
@@ -49,6 +56,18 @@ const useStyles = makeStyles(theme => ({
 
 export const OnboardSociety = props => {
   const classes = useStyles(props);
+  const dispatch = useDispatch();
+  const onboardingState = useSelector(state => state.onboarding);
+  const onboardingData = onboardingState.data;
+
+  React.useEffect(() => {
+    dispatch(fetchUserOnboardingState());
+  }, [dispatch]);
+
+  if (onboardingState.data.onboarded === true) {
+    return <Redirect to="/manage" />;
+  }
+
   return (
     <>
       <Container
@@ -404,10 +423,34 @@ export const OnboardSociety = props => {
                 }}
               >
                 <Paper component="form">
-                  <SearchSociety styles={{width: '100%'}} />
+                  <SearchSociety
+                    loading={
+                      onboardingData.societies.status ===
+                      ONBOARDING_STATUS.LOADING
+                    }
+                    societies={onboardingData.societies.data}
+                    selectedSociety={onboardingData.societies.selectedSociety}
+                    onChange={newSelectedSociety => {
+                      dispatch(
+                        setSocietyData({
+                          data: onboardingData.societies.data,
+                          status: onboardingData.societies.status,
+                          selectedSociety: newSelectedSociety,
+                        }),
+                      );
+                    }}
+                    onInputChange={inputValue => {}}
+                    styles={{width: '100%'}}
+                  />
                 </Paper>
               </Box>
-              <Map longitude="77.642412" latitude="12.911103" />
+              {onboardingData.societies.selectedSociety && (
+                <Map
+                  interactive
+                  longitude={onboardingData.societies.selectedSociety.longitude}
+                  latitude={onboardingData.societies.selectedSociety.latitude}
+                />
+              )}
             </Paper>
           </Box>
         </Box>

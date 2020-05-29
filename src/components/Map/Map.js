@@ -12,6 +12,7 @@ export const Map = React.memo(props => {
   const {latitude, longitude, interactive, zoomLevel} = props;
 
   React.useEffect(() => {
+    let active = true;
     const initializeMap = ({setMap, mapContainer}) => {
       const map = new mapboxgl.Map({
         container: mapContainer.current,
@@ -78,7 +79,9 @@ export const Map = React.memo(props => {
       };
 
       map.on('load', () => {
-        setMap(map);
+        if (active) {
+          setMap(map);
+        }
         map.addImage('pulsing-dot', pulsingDot, {pixelRatio: 2});
 
         map.addSource('points', {
@@ -109,7 +112,20 @@ export const Map = React.memo(props => {
     };
 
     if (!map) initializeMap({setMap, mapContainer});
+    return () => {
+      active = false;
+    };
   }, [interactive, latitude, longitude, map, zoomLevel]);
+
+  React.useEffect(() => {
+    let active = true;
+    if (active) {
+      setMap(null);
+    }
+    return () => {
+      active = false;
+    };
+  }, [latitude, longitude]);
 
   return (
     <div className={wrapper}>

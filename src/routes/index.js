@@ -4,7 +4,7 @@ import {Switch, Route, Redirect} from 'react-router-dom';
 import Home from '../containers/Home';
 import LoginView, {AuthenticatedRoute} from '../containers/Login';
 import Management from '../containers/Management';
-import OnboardSociety from '../containers/OnboardSociety';
+import OnboardSociety from '../containers/Onboarding';
 
 const Routes = props => {
   return (
@@ -13,7 +13,7 @@ const Routes = props => {
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={LoginView} />
         <AuthenticatedRoute path="/manage" component={Management} />
-        <Route path="/onboard-society" component={OnboardSociety} />
+        <AuthenticatedRoute path="/onboarding" component={OnboardSociety} />
         <Redirect to="/manage" />
       </Switch>
     </Suspense>
