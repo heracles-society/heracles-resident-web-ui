@@ -4,6 +4,7 @@ import * as React from 'react';
 import ManagementContent from './ManagementContent';
 import ManagementNavigation from './ManagementNavigation';
 
+import FloatingButton from '../../components/FloatingButton';
 import {Page} from '../../components/Layout';
 import siteBackgroundImageDark from '../../images/image_2.jpg';
 import siteBackgroundImage from '../../images/image_4.jpg';
@@ -101,19 +102,23 @@ const useStyles = makeStyles(theme => ({
 
 export const Management = props => {
   const classes = useStyles(props);
+
   return (
-    <Page
-      navigationContent={<ManagementNavigation />}
-      mainContent={<ManagementContent />}
-      rightContent={
-        <Paper elevation={4} square className={classes.societyImageWrapper}>
-          <Box className={classes.societySelectPaper}>
-            <Paper component="form">
-              <SearchSociety styles={{width: '100%'}} />
-            </Paper>
-          </Box>
-        </Paper>
-      }
-    />
+    <>
+      <Page
+        navigationContent={<ManagementNavigation />}
+        mainContent={<ManagementContent />}
+        rightContent={
+          <Paper elevation={4} square className={classes.societyImageWrapper}>
+            <Box className={classes.societySelectPaper}>
+              <Paper component="form">
+                <SearchSociety styles={{width: '100%'}} />
+              </Paper>
+            </Box>
+          </Paper>
+        }
+      />
+      <FloatingButton />
+    </>
   );
 };

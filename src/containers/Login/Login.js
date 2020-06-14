@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     height: '100%',
   },
   leftSide: {
-    // backgroundImage: `url(${LoginImage})`,
+    // backgroundImage: `url(${'https://image.shutterstock.com/image-photo/low-angle-view-skyscrapers-shenzhenchina-600w-526689706.jpg'})`,
   },
   rightSide: {
     background:
