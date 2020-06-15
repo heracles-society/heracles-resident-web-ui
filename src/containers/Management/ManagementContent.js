@@ -6,6 +6,10 @@ import {Apartments} from './ManagementViews/Apartments';
 import {Complaints} from './ManagementViews/Complaints';
 import {Reservations} from './ManagementViews/Reservations';
 
+import Checkout from '../Checkout';
+import RequestView from '../RequestView/RequestView';
+import Thankyou from '../Thankyou/Thankyou';
+
 const ManagementRouteComponent = props => {
   return <pre>{JSON.stringify(props, null, 2)}</pre>;
 };
@@ -16,10 +20,7 @@ const ManagementComponent = props => {
     <Switch>
       <Route exact path={`${path}/complaints`} component={Complaints} />
       <Route exact path={`${path}/reservations`} component={Reservations} />
-      <Route
-        path={`${path}/bills-and-payments`}
-        component={ManagementRouteComponent}
-      />
+      <Route exact path={`${path}/bills-and-payments`} component={Checkout} />
       <Route
         exact
         path={`${path}/notifications`}
@@ -36,6 +37,8 @@ const ManagementComponent = props => {
         path={`${path}/settings`}
         component={ManagementRouteComponent}
       />
+      <Route exact path={`${path}/thankyou`} component={Thankyou} />
+      <Route exact path={`${path}/request`} component={RequestView} />
       <Redirect to={`${path}/apartments`} />
     </Switch>
   );
