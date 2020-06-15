@@ -5,6 +5,7 @@ import {
   SET_SOUND,
   SET_DEFAULT_MESSAGE,
   REMOVE_SELECTION,
+  SAVE_CONVERSATION_IN_DB,
 } from '../reducers/emergency';
 
 export const setConversation = message => {
@@ -49,8 +50,18 @@ export const setDefaultMessage = () => {
   };
 };
 
-export const removeSelection = () => {
+export const removeSelection = index => {
   return {
     type: REMOVE_SELECTION,
+    payload: {
+      index,
+    },
+  };
+};
+
+export const saveConversationInDb = conversations => {
+  return {
+    type: SAVE_CONVERSATION_IN_DB,
+    payload: conversations,
   };
 };

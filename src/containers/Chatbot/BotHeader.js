@@ -1,3 +1,4 @@
+import {makeStyles} from '@material-ui/core';
 import VolumeDownIcon from '@material-ui/icons/VolumeDown';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 import React from 'react';
@@ -5,29 +6,43 @@ import {connect} from 'react-redux';
 
 import {setSound} from '../../redux/actions/emergency';
 
-const ChatBotHeader = props => {
-  return (
-    <div
-      style={{
-        height: '20%',
-        background: '#0081A7',
-        color: 'white',
-        textAlign: 'center',
-        borderTopLeftRadius: '10px',
-        borderTopRightRadius: '10px',
-      }}
-    >
-      <div
-        style={{
-          position: 'relative',
-          top: '1rem',
-          left: '2rem',
-          width: '75%',
-        }}
-      >
-        <div style={{fontSize: '1.3rem'}}>Heracles Emergency Support Team</div>
+const useStyles = makeStyles(theme => ({
+  container: {
+    height: '20%',
+    background: '#0081A7',
+    color: 'white',
+    textAlign: 'center',
+    borderTopLeftRadius: '10px',
+    borderTopRightRadius: '10px',
+  },
+  headerBlock: {
+    position: 'relative',
+    top: '1rem',
+    left: '2rem',
+    width: '75%',
+  },
+  title: {
+    fontSize: '1.3rem',
+  },
+  subtitle: {
+    fontSize: '1rem',
+  },
+  sound: {
+    position: 'absolute',
+    right: '-3rem',
+    bottom: '-1rem',
+    cursor: 'pointer',
+  },
+}));
 
-        <div style={{fontSize: '1rem'}}>Ready to help you!</div>
+const ChatBotHeader = props => {
+  const classes = useStyles();
+  return (
+    <div className={classes.container}>
+      <div className={classes.headerBlock}>
+        <div className={classes.title}>Heracles Emergency Support Team</div>
+
+        <div className={classes.subtitle}>Ready to help you!</div>
         <span
           onClick={() => {
             props.setSound(!props.isSoundEnabled);
@@ -36,12 +51,7 @@ const ChatBotHeader = props => {
           role="button"
           tabIndex="0"
           onKeyPress={() => {}}
-          style={{
-            position: 'absolute',
-            right: '-3rem',
-            bottom: '-1rem',
-            cursor: 'pointer',
-          }}
+          className={classes.sound}
         >
           {props.isSoundEnabled ? <VolumeDownIcon /> : <VolumeOffIcon />}
         </span>

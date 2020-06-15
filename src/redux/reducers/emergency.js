@@ -5,6 +5,7 @@ export const UPDATE_TEXT_ENABLED = 'UPDATE_TEXT_ENABLED';
 export const SET_DEFAULT_MESSAGE = 'SET_DEFAULT_MESSAGE';
 export const REMOVE_SELECTION = 'REMOVE_SELECTION';
 export const SET_SOUND = 'SET_SOUND';
+export const SAVE_CONVERSATION_IN_DB = 'SAVE_CONVERSATION_IN_DB';
 
 const messageState = [
   {
@@ -44,7 +45,7 @@ export default (state = initialState, action) => {
       return {...state, messages: messageState};
     case REMOVE_SELECTION:
       const msg = [...state.messages];
-      msg[0].selection = [];
+      msg[payload.index].selection = [];
       return {...state, messages: msg};
     default:
       return state;

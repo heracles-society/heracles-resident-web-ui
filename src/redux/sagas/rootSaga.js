@@ -5,6 +5,7 @@ import {
   restoreSessionSaga,
   persistAccessToken,
 } from './session';
+import {saveConvesationsWatcher} from './views/emergency';
 import {
   fetchUserOnBoardingStateSaga,
   fetchSocietiesSaga,
@@ -19,6 +20,7 @@ function* watchSagas() {
     fork(persistAccessToken),
     fork(restoreSessionSaga),
     fork(exchangeGoogleTokenSaga),
+    fork(saveConvesationsWatcher),
   ]);
 }
 

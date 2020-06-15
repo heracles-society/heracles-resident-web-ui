@@ -5,7 +5,13 @@ import {connect} from 'react-redux';
 import Rodal from 'rodal';
 
 import ChatBotHeader from './BotHeader';
-import {callQuestionList, CALL, CHAT, timer} from './constant';
+import {
+  callQuestionList,
+  chatQuestionsList,
+  CALL,
+  CHAT,
+  timer,
+} from './constant';
 
 import send from '../../assets/send_button.svg';
 import {
@@ -14,6 +20,7 @@ import {
   updateVisibleStatus,
   setDefaultMessage,
   removeSelection,
+  saveConversationInDb,
 } from '../../redux/actions/emergency';
 import {getCurrentTimeStamp, validatePhoneNumber} from '../../utils/utility';
 import 'react-chat-widget/lib/styles.css';
@@ -71,13 +78,150 @@ class ChatBot extends React.Component {
         this.setAutomaticMessage(index + 1, timer);
       }, timer);
     }
+    // saga call , db me save karnge
+    // action for
+    this.props.saveConversationInDb(this.props.messages);
   };
 
   handleNewUserMessage = msg => {
     if (msg === CALL || msg === CHAT || this.state.QIndex === 1) {
       this.props.updateTextEnabled(false);
     }
-    if (this.state.QIndex === 1) {
+
+    if (this.state.QIndex === 3) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 2].title,
+        selection: [],
+      };
+      this.props.updateTextEnabled(true);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    }
+    if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Police' &&
+      msg !== 'Others Offences'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 3].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(true);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    }
+    if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Police' &&
+      msg === 'Others Offences'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 5].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(false);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Fire Station' &&
+      msg === 'Registered Address'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 3].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(true);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Fire Station' &&
+      msg === 'Alternate Address'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 4].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(false);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Ambulance' &&
+      msg === 'Registered Address'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 3].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(true);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Ambulance' &&
+      msg === 'Alternate Address'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 4].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(false);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (
+      this.state.QIndex === 2 &&
+      this.props.messages[3].title === 'Others'
+    ) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 3].title,
+        selection: [],
+      };
+      this.props.removeSelection(4);
+      this.props.updateTextEnabled(false);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    }
+    if (this.state.QIndex === 1 && this.props.messages[1].title === CALL) {
       const isValidNumber = validatePhoneNumber(msg);
       if (isValidNumber) {
         this.setAutomaticMessage(1, 2000);
@@ -92,6 +236,57 @@ class ChatBot extends React.Component {
           this.setVoiceCommand(upcomingMessage.title);
         }, 2000);
       }
+    } else if (msg === 'Police' && this.state.QIndex === 1) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex].title,
+        selection: chatQuestionsList[this.state.QIndex].selection,
+      };
+      this.props.removeSelection(2);
+      this.props.updateTextEnabled(true);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (msg === 'Fire Station' && this.state.QIndex === 1) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 1].title,
+        selection: chatQuestionsList[this.state.QIndex + 1].selection,
+      };
+      this.props.updateTextEnabled(true);
+      this.props.removeSelection(2);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (msg === 'Ambulance' && this.state.QIndex === 1) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 2].title,
+        selection: chatQuestionsList[this.state.QIndex + 2].selection,
+      };
+      this.props.removeSelection(2);
+      this.props.updateTextEnabled(true);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
+    } else if (msg === 'Others' && this.state.QIndex === 1) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex + 3].title,
+        selection: [],
+      };
+      this.props.removeSelection(2);
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setVoiceCommand(upcomingMessage.title);
+        this.setState({QIndex: this.state.QIndex + 1});
+      }, 2000);
     }
 
     const senderMsg = {
@@ -100,15 +295,29 @@ class ChatBot extends React.Component {
       selection: [],
     };
     this.props.setConversation(senderMsg);
-    this.props.removeSelection();
+    this.props.removeSelection(0);
     this.setState({userText: ''});
 
-    if (this.state.QIndex === 0) {
+    if (this.state.QIndex === 0 && msg === CALL) {
       const upcomingMessage = {
         sender: false,
         title: callQuestionList[this.state.QIndex].title,
         selection: [],
       };
+      setTimeout(() => {
+        this.props.setConversation(upcomingMessage);
+        this.setState({
+          QIndex: this.state.QIndex + 1,
+        });
+        this.setVoiceCommand(upcomingMessage.title);
+      }, timer);
+    } else if (this.state.QIndex === 0 && msg === CHAT) {
+      const upcomingMessage = {
+        sender: false,
+        title: chatQuestionsList[this.state.QIndex].title,
+        selection: chatQuestionsList[this.state.QIndex].selection,
+      };
+      this.props.updateTextEnabled(true);
       setTimeout(() => {
         this.props.setConversation(upcomingMessage);
         this.setState({
@@ -152,7 +361,7 @@ class ChatBot extends React.Component {
                     variant="contained"
                     color={selection.color}
                     onClick={() => this.handleNewUserMessage(selection.title)}
-                    style={{marginLeft: '2rem'}}
+                    style={{marginLeft: '2rem', marginBottom: '1rem'}}
                     key={index}
                   >
                     {selection.title}
@@ -227,7 +436,9 @@ const mapDispatchToProps = dispatch => {
     updateTextEnabled: status => dispatch(updateTextEnabled(status)),
     updateVisibleStatus: status => dispatch(updateVisibleStatus(status)),
     setDefaultMessage: () => dispatch(setDefaultMessage()),
-    removeSelection: () => dispatch(removeSelection()),
+    removeSelection: index => dispatch(removeSelection(index)),
+    saveConversationInDb: conversation =>
+      dispatch(saveConversationInDb(conversation)),
   };
 };
 const mapStateToProps = state => {
